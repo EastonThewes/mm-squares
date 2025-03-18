@@ -14,10 +14,6 @@ const names: string[] = [
   "Brandon", "Brandon", "", "", "", "", "Mike K.", "", "Kisscha", "Kisscha",
 ];
 
-const getRandomizedNumbers = (): number[] => {
-  return [...Array(10).keys()].sort(() => Math.random() - 0.5);
-};
-
 interface GridProps {
   id: string;
   pairs: [number, number][];
