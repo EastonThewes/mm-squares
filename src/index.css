@@ -1,37 +1,26 @@
-.grid-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-  flex-direction: column;
-}
-
-table {
-  border-collapse: collapse;
-}
-
 td {
-  border: 1px solid black;
-  width: 80px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   text-align: center;
   font-size: 14px;
 }
 
-.axis-cell {
-  font-weight: bold;
-  background-color: lightgray;
+:root {
+  background-color:white;
 }
 
-.corner {
-  background-color: white;
-  border: none;
-}
 
-.cell {
-  transition: background-color 0.3s ease;
-}
+@media screen and (max-width: 768px) {
+  .MuiTableCell-root {
+    padding: 2px;
+    font-size: 12px;
+  }
 
-.payouts {
-  margin-top: 20px;
+  .MuiTableContainer-root {
+    max-width: 100%;
+  }
+
+  .MuiTable-root {
+    font-size: 12px;
+  }
 }

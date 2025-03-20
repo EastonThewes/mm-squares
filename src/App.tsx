@@ -1,5 +1,9 @@
+import { Box, Typography } from '@mui/material';
 import './App.css';
-import Grid from './Grid';
+import SquaresGrid from './SquaresGrid';
+import WinnersTable from './WinnersTable';
+import PeoplePayouts from './WinnersTable';
+import { useState } from 'react';
 
 interface Round {
   id: string;
@@ -10,36 +14,65 @@ interface Round {
 function App() {
   const rounds: Round[] = [
     {
-      id: "round1",
-      pairs: [
-        [83, 67], [75, 72], [91, 88], [60, 64], [74, 69], [92, 74],
+      "id": "round1",
+      "pairs": [
+         [61, 10], [61, 10], [65, 16]
+        // [13, 44], [44, 28], [13, 27], [71, 99], [62, 99], [69, 43], [20, 48], [72, 36],
+        // [90, 34], [92, 73], [33, 25], [9, 44], [70, 68], [20, 3], [38, 27], [69, 83],
+        // [55, 75], [7, 85], [79, 36], [55, 33], [54, 59], [47, 63], [95, 16], [85, 18]
       ],
-      payout: 0.5,
+      "payout": 0.5
     },
     {
-      id: "round2",
-      pairs: [
-        [89, 65], [82, 78], [90, 84], [76, 79], [67, 72], [92, 77],
+      "id": "round2",
+      "pairs": [
+        [77, 47], 
+        // [30, 91], [68, 20], [79, 65], [51, 65], [41, 43], [49, 10], [55, 96], [84, 39]
       ],
-      payout: 1,
+      "payout": 1
     },
     {
-      id: "round3",
-      pairs: [
-        [91, 85], [70, 65], [80, 75], [82, 79], [87, 90], [93, 88],
+      "id": "round3",
+      "pairs": [
+        [82, 92], 
+        // [49, 88], [70, 63], [58, 54], [21, 49], [44, 19], [99, 3], [68, 45]
       ],
-      payout: 2,
+      "payout": 2
     },
-    // Add more rounds as needed
-  ];
+    // {
+    //   "id": "round4",
+    //   "pairs": [
+    //     [91, 60], [42, 40], [64, 73], [26, 53]
+    //   ],
+    //   "payout": 3
+    // },
+    // {
+    //   "id": "round5",
+    //   "pairs": [[30, 31], [24, 74]],
+    //   "payout": 10
+    // },
+    // {
+    //   "id": "round6",
+    //   "pairs": [[2, 22]],
+    //   "payout": 20
+    // }
+  ]
+
+
+
 
   return (
-    <>
-      <div>
-        <h1>Eagle Research March Madness</h1>
-        <Grid rounds={rounds} />
-      </div>
-    </>
+  <div style={{}} >
+    <Typography variant="h4" fontWeight="bold" fontFamily="sans-serif" mb={2}>
+      Eagle Research March Madness Squares
+    </Typography>
+    <Box sx={{}}>
+      <SquaresGrid rounds={rounds} />
+    </Box>
+    <Box sx={{}}>
+      <PeoplePayouts rounds={rounds} />
+    </Box>
+  </div>
   );
 }
 
