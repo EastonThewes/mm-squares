@@ -26,8 +26,8 @@ interface PeoplePayoutsProps {
 
 const PeoplePayouts: React.FC<PeoplePayoutsProps> = ({ rounds }) => {
   const [payouts, setPayouts] = useState<Record<string, number>>({});
-  const [xAxis, setXAxis] = useState<number[]>([1, 9, 7, 8, 5, 6, 4, 0, 2, 3]);
-  const [yAxis, setYAxis] = useState<number[]>([4, 5, 7, 8, 2, 1, 6, 9, 0, 3]);
+  const [xAxis] = useState<number[]>([1, 9, 7, 8, 5, 6, 4, 0, 2, 3]);
+  const [yAxis] = useState<number[]>([4, 5, 7, 8, 2, 1, 6, 9, 0, 3]);
   useEffect(() => {
     const totalPayouts: Record<string, number> = {};
 

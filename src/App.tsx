@@ -1,9 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import './App.css';
 import SquaresGrid from './SquaresGrid';
-import WinnersTable from './WinnersTable';
 import PeoplePayouts from './WinnersTable';
-import { useState } from 'react';
 
 interface Round {
   id: string;
