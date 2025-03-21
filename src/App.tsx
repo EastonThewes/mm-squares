@@ -65,10 +65,10 @@ function App() {
     <Typography variant="h4" fontWeight="bold" fontFamily="sans-serif" mb={2}>
       Eagle Research March Madness Squares
     </Typography>
-    <Box sx={{}}>
+    <Box sx={{margin: 10}}>
       <SquaresGrid rounds={rounds} />
     </Box>
-    <Box sx={{}}>
+    <Box sx={{margin: 10}}>
       <PeoplePayouts rounds={rounds} />
     </Box>
   </div>

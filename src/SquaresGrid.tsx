@@ -110,8 +110,8 @@ const SquaresGrid: React.FC<GridProps> = ({ rounds }) => {
   });
 
   return (
-    <div className="grid-container" style={{ padding: "20px" }}>
-      <TableContainer component={Paper} style={{ boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)", borderRadius: "10px" }}>
+    <div className="grid-container" style={{ }}>
+      <TableContainer component={Paper} style={{ boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)", borderRadius: "10px", padding:10 }}>
         <Table>
           <TableHead style={{ backgroundColor: "#f0f0f0" }}>
             <TableRow>

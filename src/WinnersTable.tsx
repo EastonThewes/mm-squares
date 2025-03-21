@@ -52,8 +52,8 @@ const PeoplePayouts: React.FC<PeoplePayoutsProps> = ({ rounds }) => {
   }, [rounds, xAxis, yAxis]);
 
   return (
-    <div className="payouts-table-container" style={{ padding: "20px" }}>
-      <TableContainer component={Paper} style={{ boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)", borderRadius: "10px" }}>
+    <div className="payouts-table-container" style={{  }}>
+      <TableContainer component={Paper} style={{ boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)", borderRadius: "10px", padding:10}}>
         <Table>
           <TableHead style={{ backgroundColor: "#f0f0f0" }}>
             <TableRow>
