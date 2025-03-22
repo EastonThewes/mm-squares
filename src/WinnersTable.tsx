@@ -51,7 +51,7 @@ const PeoplePayouts: React.FC<PeoplePayoutsProps> = ({ games }) => {
     games.forEach((game) => {
 
       //@ts-ignore
-        if (game.homeScore === '' || game.awayScore === '' ||  game.finished === '') return
+        if (game.finished !== 'FINAL') return
     
         const winner = Math.max(game.homeScore, game.awayScore);
         const loser = Math.min(game.homeScore, game.awayScore);
