@@ -68,7 +68,7 @@ const GamesTable: React.FC<GamesTableProps> = ({ games }) => {
   
   // Conditionally set background color if finalMessage is not empty
   //@ts-ignore
-  const rowStyle = (game.finished === '' && game.homeScore !== '') ? { backgroundColor: 'lightcoral' } : {};
+  const rowStyle = (game.finished !== 'FINAL' && game.finished !== '') ? { backgroundColor: 'lightcoral' } : {};
 
   return (
     <TableRow key={index} style={rowStyle}>

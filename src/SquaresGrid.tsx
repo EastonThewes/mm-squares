@@ -64,7 +64,7 @@ const SquaresGrid: React.FC<GridProps> = ({ games }) => {
     games.forEach((game) => {
 
       //@ts-ignore
-      if (game.awayScore === '' || game.homeScore === '' || game.finished === '') {
+      if (game.finished !== 'FINAL') {
         return;
       } else {
         const winner =  Math.max(game.awayScore, game.homeScore);
