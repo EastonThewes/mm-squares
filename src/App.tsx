@@ -9,7 +9,57 @@ interface Round {
   payout: number;
 }
 
+async function fetchGamesForDate(year: number, month: number, day: number) {
+  const backendApiUrl = `../netlify/functions/fetchGames?year=${year}&month=${month}&day=${day}`;
+
+  try {
+    const response = await fetch(backendApiUrl);
+    
+    if (!response.ok) {
+      throw new Error(`Error fetching data for ${year}-${month}-${day}: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    console.log("Fetched Data:", data);
+    return data;
+  } catch (error) {
+    console.error("Error fetching:", error);
+    return null;
+  }
+}
+
+async function fetchGamesFromMarch20() {
+  const currentDate = new Date(2025, 2, 20); // March 20, 2025 (Months are 0-based)
+  const allGames = [];
+
+
+
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Ensure MM format
+    const day = String(currentDate.getDate()).padStart(2, "0"); // Ensure DD format
+
+    console.log(`Fetching games for ${year}-${month}-${day}...`);
+    const games = await fetchGamesForDate(year, +month, +day);
+    if (games) {
+      allGames.push(...games);
+    }
+
+    currentDate.setDate(currentDate.getDate() + 1); // Move to the next day
+  
+
+  return allGames;
+}
+
+fetchGamesFromMarch20().then(games => {
+  console.log("Fetched games:", games);
+});
+
 function App() {
+
+
+ 
+
+
   const rounds: Round[] = [
     {
       "id": "round1",
@@ -61,7 +111,7 @@ function App() {
 
 
   return (
-  <div style={{}} >
+  <div >
     <Typography variant="h4" fontWeight="bold" fontFamily="sans-serif" mb={2}>
       Eagle Research March Madness Squares
     </Typography>
