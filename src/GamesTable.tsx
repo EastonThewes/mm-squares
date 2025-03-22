@@ -23,6 +23,7 @@ interface Game {
   awayTeam: string;
   homeTeam: string;
   round: string;
+  finished: string;
 }
 
 interface GamesTableProps {
@@ -30,9 +31,6 @@ interface GamesTableProps {
 }
 
 const GamesTable: React.FC<GamesTableProps> = ({ games }) => {
-
-
-
 
   const getWinner = (homeScore: number, awayScore: number) => {
     //@ts-ignore
@@ -65,19 +63,23 @@ const GamesTable: React.FC<GamesTableProps> = ({ games }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {games.map((game, index) => {
-              const winner = getWinner(game.homeScore, game.awayScore);
-              return (
-                <TableRow key={index}>
-                  <TableCell>{game.round}</TableCell>
-                  <TableCell>{game.homeTeam}</TableCell>
-                  <TableCell>{game.homeScore}</TableCell>
-                  <TableCell>{game.awayTeam}</TableCell>
-                  <TableCell>{game.awayScore}</TableCell>
-                  <TableCell>{winner}</TableCell>
-                </TableRow>
-              );
-            })}
+          {games.map((game, index) => {
+  const winner = getWinner(game.homeScore, game.awayScore);
+  
+  // Conditionally set background color if finalMessage is not empty
+  const rowStyle = (game.finished === '' && game.homeScore !== '') ? { backgroundColor: 'lightcoral' } : {};
+
+  return (
+    <TableRow key={index} style={rowStyle}>
+      <TableCell>{game.round}</TableCell>
+      <TableCell>{game.homeTeam}</TableCell>
+      <TableCell>{game.homeScore}</TableCell>
+      <TableCell>{game.awayTeam}</TableCell>
+      <TableCell>{game.awayScore}</TableCell>
+      <TableCell>{winner}</TableCell>
+    </TableRow>
+  );
+})}
           </TableBody>
         </Table>
       </TableContainer>

@@ -27,6 +27,7 @@ interface Game {
   awaySeed: number
   homeSeed: number
   round: string
+  finished: string
 }
 
 const SquaresGrid: React.FC<GridProps> = ({ games }) => {
@@ -63,7 +64,7 @@ const SquaresGrid: React.FC<GridProps> = ({ games }) => {
     games.forEach((game) => {
 
       //@ts-ignore
-      if (game.awayScore === '' || game.homeScore === '') {
+      if (game.awayScore === '' || game.homeScore === '' || game.finished === '') {
         return;
       } else {
         const winner =  Math.max(game.awayScore, game.homeScore);

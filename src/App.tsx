@@ -14,6 +14,7 @@ interface Game {
   awaySeed: number
   homeSeed: number
   round: string
+  finished: string
 }
 
 async function fetchGamesFromMarch20() {
@@ -49,7 +50,8 @@ async function fetchGamesFromMarch20() {
             homeTeam: game.game.home.names.short,
             awaySeed: game.game.away.seed,
             homeSeed: game.game.home.seed,
-            round: game.game.bracketRound
+            round: game.game.bracketRound,
+            finished: game.game.finalMessage	
           });
         });
       } else {
