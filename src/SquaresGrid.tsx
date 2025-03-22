@@ -14,17 +14,22 @@ const names: string[] = [
   "Brandon", "Brandon", "Easton", "Kisscha", "Brandon", "Easton", "Mike K.", "Easton", "Kisscha", "Kisscha",
 ];
 
-interface Round {
-  id: string;
-  pairs: [number, number][]; // Each pair is a tuple of two numbers
-  payout: number;
-}
 
 interface GridProps {
-  rounds: Round[];
+  games: Game[];
 }
 
-const SquaresGrid: React.FC<GridProps> = ({ rounds }) => {
+interface Game {
+  awayScore: number
+  homeScore: number
+  awayTeam: string
+  homeTeam: string
+  awaySeed: number
+  homeSeed: number
+  round: string
+}
+
+const SquaresGrid: React.FC<GridProps> = ({ games }) => {
   const [xAxis, setXAxis] = useState<number[]>([]);
   const [yAxis, setYAxis] = useState<number[]>([]);
   const [gridData, setGridData] = useState<string[][]>([]);
@@ -54,60 +59,30 @@ const SquaresGrid: React.FC<GridProps> = ({ rounds }) => {
 
   useEffect(() => {
     const newFrequency = Array.from({ length: 10 }, () => Array(10).fill(0));
-    rounds.forEach((round) => {
-      round.pairs.forEach(([num1, num2]) => {
-        const winner = Math.max(num1, num2);
-        const loser = Math.min(num1, num2);
 
+    games.forEach((game) => {
+
+      //@ts-ignore
+      if (game.awayScore === '' || game.homeScore === '') {
+        return;
+      } else {
+        const winner =  Math.max(game.awayScore, game.homeScore);
+        const loser =  Math.min(game.awayScore, game.homeScore);
+  
         const columnIndex = xAxis.indexOf(winner % 10);
         const rowIndex = yAxis.indexOf(loser % 10);
-
+  
         if (rowIndex >= 0 && columnIndex >= 0) {
           newFrequency[rowIndex][columnIndex]++;
         }
-      });
+      }
+
+      
     });
 
     setCellFrequency(newFrequency);
-  }, [rounds, xAxis, yAxis]);
+  }, [games, xAxis, yAxis]);
 
-  const getRoundWinners = (round: Round, roundNumber: number) => {
-    const winners: Record<string, number> = {};
-    const matchResults: { round: number; score: string; winner: string }[] = [];
-
-    round.pairs.forEach(([num1, num2]) => {
-      const winner = Math.max(num1, num2);
-      const loser = Math.min(num1, num2);
-      const columnIndex = xAxis.indexOf(winner % 10);
-      const rowIndex = yAxis.indexOf(loser % 10);
-
-      if (rowIndex >= 0 && columnIndex >= 0) {
-        const name = gridData[rowIndex]?.[columnIndex] || "Unknown";
-        if (name !== "Unknown") {
-          winners[name] = (winners[name] || 0) + 1;
-        }
-        matchResults.push({
-          round: roundNumber,
-          score: `${winner} - ${loser}`,
-          winner: name,
-        });
-      }
-    });
-
-    return { winners, matchResults };
-  };
-
-  const totalPayouts: Record<string, number> = {};
-  const allMatchResults: { round: number; score: string; winner: string }[] = [];
-
-  rounds.forEach((round, index) => {
-    const { winners, matchResults } = getRoundWinners(round, index + 1);
-    Object.entries(winners).forEach(([name, count]) => {
-      totalPayouts[name] = (totalPayouts[name] || 0) + count * round.payout;
-    });
-
-    allMatchResults.push(...matchResults);
-  });
 
   return (
     <div className="grid-container" style={{ }}>
@@ -164,7 +139,7 @@ const SquaresGrid: React.FC<GridProps> = ({ rounds }) => {
                 </TableCell>
                 {gridData[row]?.map((name, col) => {
                   const frequency = cellFrequency[row][col];
-                  const backgroundColor = `rgba(0, 0, 255, ${Math.min(frequency / 31, 1)})`;
+                  const backgroundColor = `rgba(0, 0, 255, ${Math.min(frequency / 16, 1)})`;
 
                   return (
                     <Tooltip

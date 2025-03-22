@@ -14,27 +14,46 @@ const names: string[] = [
   "Brandon", "Brandon", "Easton", "Kisscha", "Brandon", "Easton", "Mike K.", "Easton", "Kisscha", "Kisscha",
 ];
 
-interface Round {
-  id: string;
-  pairs: [number, number][]; // Each pair is a tuple of two numbers
-  payout: number;
+
+
+interface Game {
+  awayScore: number
+  homeScore: number
+  awayTeam: string
+  homeTeam: string
+  awaySeed: number
+  homeSeed: number
+  round: string
 }
 
 interface PeoplePayoutsProps {
-  rounds: Round[];
+  games: Game[];
 }
 
-const PeoplePayouts: React.FC<PeoplePayoutsProps> = ({ rounds }) => {
+const getPayout = (round: string) => {
+  if (round === "First Round") {
+    return .5
+  } else if (round === "Second Round") {
+    return 1
+  } else {
+    return 0
+  }
+}
+
+const PeoplePayouts: React.FC<PeoplePayoutsProps> = ({ games }) => {
   const [payouts, setPayouts] = useState<Record<string, number>>({});
   const [xAxis] = useState<number[]>([1, 9, 7, 8, 5, 6, 4, 0, 2, 3]);
   const [yAxis] = useState<number[]>([4, 5, 7, 8, 2, 1, 6, 9, 0, 3]);
   useEffect(() => {
     const totalPayouts: Record<string, number> = {};
 
-    rounds.forEach((round) => {
-      round.pairs.forEach(([num1, num2]) => {
-        const winner = Math.max(num1, num2);
-        const loser = Math.min(num1, num2);
+    games.forEach((game) => {
+
+      //@ts-ignore
+        if (game.homeScore === '' || game.awayScore === '') return
+    
+        const winner = Math.max(game.homeScore, game.awayScore);
+        const loser = Math.min(game.homeScore, game.awayScore);
 
         const columnIndex = xAxis.indexOf(winner % 10);
         const rowIndex = yAxis.indexOf(loser % 10);
@@ -42,14 +61,15 @@ const PeoplePayouts: React.FC<PeoplePayoutsProps> = ({ rounds }) => {
         if (rowIndex >= 0 && columnIndex >= 0) {
           const name = names[rowIndex * 10 + columnIndex]; // Map to name based on x and y
           if (name) {
-            totalPayouts[name] = (totalPayouts[name] || 0) + round.payout;
+            //@ts-ignore
+            totalPayouts[name] = (totalPayouts[name] || 0) + getPayout(game.round);
           }
         }
-      });
+  
     });
 
     setPayouts(totalPayouts);
-  }, [rounds, xAxis, yAxis]);
+  }, [games, xAxis, yAxis]);
 
   return (
     <div className="payouts-table-container" style={{  }}>
@@ -108,7 +128,7 @@ const PeoplePayouts: React.FC<PeoplePayoutsProps> = ({ rounds }) => {
                     borderBottom: "1px solid lightgray",
                   }}
                 >
-                  {total}
+                  ${total}
                 </TableCell>
               </TableRow>
             ))}

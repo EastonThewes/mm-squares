@@ -2,74 +2,107 @@ import { Box, Typography } from '@mui/material';
 import './App.css';
 import SquaresGrid from './SquaresGrid';
 import PeoplePayouts from './WinnersTable';
+import { useEffect, useState } from 'react';
+import GamesTable from './GamesTable';
 
-interface Round {
-  id: string;
-  pairs: [number, number][];  // Each pair is a tuple of two numbers
-  payout: number;
+
+interface Game {
+  awayScore: number
+  homeScore: number
+  awayTeam: string
+  homeTeam: string
+  awaySeed: number
+  homeSeed: number
+  round: string
 }
 
+async function fetchGamesFromMarch20() {
+  const startDate = new Date(2025, 2, 20); // March 20, 2025 (Months are 0-based)
+  const endDate = new Date(); // Current date
+  const allGames: any[] = [];
+
+  let currentDate = startDate;
+  while (currentDate <= endDate) {
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // MM format
+    const day = String(currentDate.getDate()).padStart(2, "0"); // DD format
+
+    const url = `https://corsproxy.io/?https://ncaa-api.henrygd.me/scoreboard/basketball-men/d1/${year}/${month}/${day}/all-conf`;
+
+    try {
+      console.log(`Fetching games for ${year}-${month}-${day}...`);
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Error fetching data for ${year}-${month}-${day}: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+
+      // Ensure the data is iterable before adding it
+      if (Array.isArray(data.games)) {
+        //@ts-ignore
+        data.games.forEach(game => {
+          allGames.push({
+            awayScore: game.game.away.score,
+            homeScore: game.game.home.score,
+            awayTeam: game.game.away.names.short,
+            homeTeam: game.game.home.names.short,
+            awaySeed: game.game.away.seed,
+            homeSeed: game.game.home.seed,
+            round: game.game.bracketRound
+          });
+        });
+      } else {
+        console.error("Error: games is not an array", data);
+      }
+      
+    } catch (error) {
+      console.error(`Failed to fetch games for ${year}-${month}-${day}`, error);
+    }
+
+    currentDate.setDate(currentDate.getDate() + 1); // Move to the next day
+  }
+
+  console.log("All fetched games:", allGames);
+  return allGames;
+}
+
+
+
+
+// Example usage:
+
+
+
 function App() {
-  const rounds: Round[] = [
-    {
-      "id": "round1",
-      "pairs": [
-        [89, 75], [75,63],[83,63],[69,67],[80,71],[89,68],[77,62],[79,72],[80,71],[67,57],
-        [72,47],[83,53],[68,65],[82,72],[75,72],[90,81]
-        // [13, 44], [44, 28], [13, 27], [71, 99], [62, 99], [69, 43], [20, 48], [72, 36],
-        // [90, 34], [92, 73], [33, 25], [9, 44], [70, 68], [20, 3], [38, 27], [69, 83],
-        // [55, 75], [7, 85], [79, 36], [55, 33], [54, 59], [47, 63], [95, 16], [85, 18]
-      ],
-      "payout": 0.5
-    },
-    {
-      "id": "round2",
-      "pairs": [
-        //[77, 47], 
-        // [30, 91], [68, 20], [79, 65], [51, 65], [41, 43], [49, 10], [55, 96], [84, 39]
-      ],
-      "payout": 1
-    },
-    {
-      "id": "round3",
-      "pairs": [
-        //[82, 92], 
-        // [49, 88], [70, 63], [58, 54], [21, 49], [44, 19], [99, 3], [68, 45]
-      ],
-      "payout": 2
-    },
-    // {
-    //   "id": "round4",
-    //   "pairs": [
-    //     [91, 60], [42, 40], [64, 73], [26, 53]
-    //   ],
-    //   "payout": 3
-    // },
-    // {
-    //   "id": "round5",
-    //   "pairs": [[30, 31], [24, 74]],
-    //   "payout": 10
-    // },
-    // {
-    //   "id": "round6",
-    //   "pairs": [[2, 22]],
-    //   "payout": 20
-    // }
-  ]
 
 
+  const [games, setGames] = useState<Game[]>([]);
 
+  useEffect(() => {
+    fetchGamesFromMarch20()
+    .then((games) => {
+      const filteredGames = games.filter((games) => games.round !== '');
+      setGames(filteredGames);
+    })
+    .catch((error) => {
+      console.error("Error fetching games:", error);
+    });
+  }, []);
 
   return (
   <div style={{}} >
-    <Typography variant="h4" fontWeight="bold" fontFamily="sans-serif" mb={2}>
+    <Typography color='white' variant="h4" fontWeight="bold" fontFamily="sans-serif" mb={2}>
       Eagle Research March Madness Squares
     </Typography>
     <Box sx={{margin: 10}}>
-      <SquaresGrid rounds={rounds} />
+      <SquaresGrid games={games} />
     </Box>
     <Box sx={{margin: 10}}>
-      <PeoplePayouts rounds={rounds} />
+      <PeoplePayouts games={games} />
+    </Box>
+    <Box sx={{margin: 10}}>
+      <GamesTable games={games} />
     </Box>
   </div>
   );
