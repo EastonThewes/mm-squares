@@ -49,8 +49,8 @@ const GamesTable: React.FC<GamesTableProps> = ({ games }) => {
   };
 
   return (
-    <div className="games-table-container" style={{ padding: 10 }}>
-      <TableContainer component={Paper} style={{ boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)", borderRadius: "10px" }}>
+    <div className="games-table-container" style={{  }}>
+      <TableContainer component={Paper} style={{ boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)", borderRadius: "10px", padding:10 }}>
         <Table>
           <TableHead style={{ backgroundColor: "#f0f0f0" }}>
             <TableRow>
@@ -67,8 +67,8 @@ const GamesTable: React.FC<GamesTableProps> = ({ games }) => {
   const winner = getWinner(game.homeScore, game.awayScore);
   
   // Conditionally set background color if finalMessage is not empty
-  //@ts-ignore
-  const rowStyle = (game.finished !== 'FINAL' && game.finished !== '') ? { backgroundColor: 'lightcoral' } : {};
+
+  const rowStyle = (!game.finished.includes('FINAL') && game.finished !== '') ? { backgroundColor: 'lightcoral' } : {};
 
   return (
     <TableRow key={index} style={rowStyle}>

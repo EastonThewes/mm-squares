@@ -36,11 +36,11 @@ const getPayout = (round: string) => {
     return .5
   } else if (round === "Second Round") {
     return 1
-  } else if (round === "Sweet Sixteen") {
+  } else if (round === "Sweet 16") {
     return 2
-  } else if (round === "Elite Eight") {
+  } else if (round === "Elite 8") {
     return 3
-  } else if (round === "Final Four") {
+  } else if (round === "Final 4") {
     return 10
   } else if (round === "Championship") {
     return 20
@@ -59,7 +59,7 @@ const PeoplePayouts: React.FC<PeoplePayoutsProps> = ({ games }) => {
     games.forEach((game) => {
 
       //@ts-ignore
-        if (game.finished !== 'FINAL') return
+        if (!game.finished.includes('FINAL')) return
     
         const winner = Math.max(game.homeScore, game.awayScore);
         const loser = Math.min(game.homeScore, game.awayScore);

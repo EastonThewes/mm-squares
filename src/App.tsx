@@ -93,21 +93,31 @@ function App() {
   }, []);
 
   return (
-  <div style={{}} >
-    <Typography color='white' variant="h4" fontWeight="bold" fontFamily="sans-serif" mb={2}>
-      Eagle Research March Madness Squares
-    </Typography>
-    <Box sx={{margin: 10}}>
-      <SquaresGrid games={games} />
-    </Box>
-    <Box sx={{margin: 10}}>
-      <PeoplePayouts games={games} />
-    </Box>
-    <Box sx={{margin: 10}}>
-      <GamesTable games={games} />
-    </Box>
-  </div>
+    <div style={{ textAlign: "center" }}>
+      <Typography 
+        color="white" 
+        variant="h4" 
+        fontWeight="bold" 
+        fontFamily="sans-serif" 
+        mb={2}
+      >
+        Eagle Research March Madness Squares
+      </Typography>
+  
+      <Box sx={{  margin: { xs: 3, md: 10 }, mx: "auto" }}>
+        <SquaresGrid games={games} />
+      </Box>
+  
+      <Box sx={{  margin: { xs: 3, md: 10 }, mx: "auto" }}>
+        <PeoplePayouts games={games} />
+      </Box>
+  
+      <Box sx={{  margin: { xs: 3, md: 10 }, mx: "auto" }}>
+        <GamesTable games={games} />
+      </Box>
+    </div>
   );
+  
 }
 
 export default App;
