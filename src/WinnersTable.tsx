@@ -38,9 +38,9 @@ const getPayout = (round: string) => {
     return 1
   } else if (round === "Sweet 16") {
     return 2
-  } else if (round === "Elite 8") {
+  } else if (round === "Elite Eight") {
     return 3
-  } else if (round === "Final 4") {
+  } else if (round === "Final Four") {
     return 10
   } else if (round === "Championship") {
     return 20
