@@ -40,7 +40,7 @@ const getPayout = (round: string) => {
     return 2
   } else if (round === "Elite Eight") {
     return 3
-  } else if (round === "Final Four") {
+  } else if (round === "FINAL FOUR") {
     return 10
   } else if (round === "Championship") {
     return 20
